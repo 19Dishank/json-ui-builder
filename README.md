@@ -98,26 +98,26 @@ An open-source, lightweight web application for frontend developers and internal
 ### Architecture Overview
 
 ```
-┌─────────────────────────────────────────────────────┐
-│  JSON UI Builder Application                        │
-├─────────────────────────────────────────────────────┤
-│                                                       │
+┌────────────────────────────────────────────────────┐
+│  JSON UI Builder Application                       │
+├────────────────────────────────────────────────────┤
+│                                                    │
 │  ┌──────────────────┐    ┌──────────────────────┐  │
 │  │  JSON Editor     │    │   Live Preview       │  │
-│  │  (contentEditable)   │   (Component Render)  │  │
+│  │ (contentEditable)|    │   (Component Render) │  │
 │  │                  │    │                      │  │
 │  │ • Edit JSON      │    │ • Field Rendering    │  │
 │  │ • Real-time      │    │ • Instant Update     │  │
 │  │   updates        │    │ • Responsive Layout  │  │
 │  └──────────────────┘    └──────────────────────┘  │
-│                                                       │
+│                                                    │
 │  ┌──────────────────────────────────────────────┐  │
 │  │  Developer Console                           │  │
 │  │  • JSON Error Messages                       │  │
 │  │  • System Status Indicators                  │  │
 │  └──────────────────────────────────────────────┘  │
-│                                                       │
-└─────────────────────────────────────────────────────┘
+│                                                    │
+└────────────────────────────────────────────────────┘
 
                     ⬇️  Flow
 
@@ -1889,5 +1889,5 @@ We'd love to hear from you! Share feedback:
 ---
 
 **Last Updated:** March 2026  
-**Maintained By:** JSON UI Builder Community  
-**Repository:** [github.com/yourusername/json-ui-builder](https://github.com/yourusername/json-ui-builder)
+**Maintained By:** Dishank Patel
+**Repository:** [github.com/19dishank/json-ui-builder](https://github.com/19dishank/json-ui-builder)
