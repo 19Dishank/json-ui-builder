@@ -3,11 +3,8 @@ import JsonEditor from '../components/JsonEditor'
 import Preview from '../components/Preview'
 import Console from '../components/Console'
 import { DefaultInputs } from '../constants'
-import { useNavigate } from 'react-router-dom'
-import Navbar from '../components/ui/Navbar'
 
 const JsonUiBuilder = () => {
-    const navigate = useNavigate()
 
     const prettyJsonString = JSON.stringify(DefaultInputs, null, 2)
 
@@ -20,7 +17,7 @@ const JsonUiBuilder = () => {
             setError('')
             return data
         } catch (err) {
-            setError(err.message)
+            setError(err)
             return { fields: [] }
         }
     }, [jsonInput])
@@ -53,7 +50,7 @@ const JsonUiBuilder = () => {
                     <section className="flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition">
                         <div className="px-5 py-3  bg-blue-200/25 rounded-t-2xl flex items-center justify-between">
                             <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-600">
-                                Live Preview
+                                Preview
                             </h2>
                             {error ? (
                                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-50 border border-red-200 text-red-600 text-xs font-semibold shadow-sm">

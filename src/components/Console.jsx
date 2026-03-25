@@ -1,12 +1,9 @@
 import React from 'react';
 
 const Console = ({ error }) => {
+    console.log(error.stack)
     return (
-        <section
-            title="Console"
-            className="h-full shrink-0 flex flex-col bg-slate-950 rounded-xl border border-slate-800 shadow-2xl overflow-hidden font-mono"
-        >
-
+        <section className="h-full shrink-0 flex flex-col bg-slate-950 rounded-xl border border-slate-800 shadow-2xl overflow-hidden font-mono">
             <div className="flex items-center justify-between px-4 py-2 bg-slate-900/50 border-b border-slate-800">
                 <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-slate-700" />
@@ -31,8 +28,9 @@ const Console = ({ error }) => {
                                 <line x1="12" y1="16" x2="12.01" y2="16" />
                             </svg>
                             <div className="flex flex-col">
-                                <span className="font-bold mb-1 underline decoration-red-900/50">Runtime Error</span>
-                                <span className="break-all text-red-300/90">{error.toString()}</span>
+                                <span className="font-bold mb-1 underline decoration-red-900/50">{error.name}</span>
+                                <span className="break-all text-red-300/90">{error.message}</span>
+                                {/* <span className="break-all text-red-300/90">{error.stack}</span> */}
                             </div>
                         </div>
 
