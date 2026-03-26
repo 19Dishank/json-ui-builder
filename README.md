@@ -148,75 +148,97 @@ JSON Input → Parse & Validate → Extract Fields → Render Components
 
 ## Supported Components
 
-### Complete Component Reference
+The application supports **13+ input types** organized by control type:
 
-#### 1. **Input Field**
-All standard HTML5 input types supported.
+### Control Types & Input Types
 
-**Control Type:** `"input"`
+#### 1. **Input** (`controlType: "input"`)
+All standard HTML5 input types using the versatile Input component.
 
-| Property | Type | Description | Optional? |
-|----------|------|-------------|-----------|
-| `controlType` | string | Must be `"input"` | No |
-| `inputType` | string | HTML5 type (text, email, password, number, date, etc.) | Yes (default: "text") |
-| `name` | string | Field identifier for form submission | Yes |
-| `label` | string | Display label above input | Yes |
-| `placeholder` | string | Placeholder text | Yes |
-| `required` | boolean | Makes field required | Yes |
-| `disabled` | boolean | Disables input interaction | Yes |
-| `defaultValue` | string/number | Pre-filled value | Yes |
-| `min` | number | Minimum value (for number/date inputs) | Yes |
-| `max` | number | Maximum value (for number/date inputs) | Yes |
-| `step` | number | Step size (for number/range inputs) | Yes |
-| `minLength` | number | Minimum character length | Yes |
-| `maxLength` | number | Maximum character length | Yes |
-| `accept` | string | File types (for file inputs) | Yes |
-| `multiple` | boolean | Allow multiple files | Yes |
+**Key Properties:**
+- `inputType` (required) - Specifies the HTML input type
+- Other common properties: `name`, `label`, `placeholder`, `required`, `disabled`, `defaultValue`
 
 **Supported inputType Values:**
-- `text` - Standard text input
-- `email` - Email validation ready
-- `password` - Hidden password input
-- `number` - Numeric input with spinner controls
-- `tel` - Telephone number
-- `url` - URL validation ready
-- `date` - Date picker
-- `time` - Time picker
-- `datetime-local` - Date and time picker
-- `color` - Color picker
-- `search` - Search-optimized input
-- `file` - File upload
 
-**Example:**
+| Input Type | Description | Example Use |
+|-----------|-------------|------------|
+| `text` | Standard text input | Names, addresses |
+| `email` | Email validation | Email addresses |
+| `password` | Masked password | Passwords, secrets |
+| `number` | Numeric with spinner | Ages, quantities |
+| `tel` | Telephone format | Phone numbers |
+| `url` | URL validation | Websites, links |
+| `date` | Date picker | Birth dates, deadlines |
+| `time` | Time picker | Appointment times |
+| `datetime-local` | DateTime picker | Meeting schedules |
+| `color` | Color picker | Preferences, themes |
+| `search` | Search-optimized | Search queries |
+| `file` | File upload | Documents, images  |
+| `range` | Slider control | Ratings, ranges |
+| `checkbox` | Boolean toggle | Agreements, permissions |
+| `radio` | Radio buttons | Single choice options |
+
+**Examples:**
+
+Text Input:
+```json
+{
+  "controlType": "input",
+  "inputType": "text",
+  "name": "fullName",
+  "label": "Full Name",
+  "placeholder": "John Doe",
+  "required": true
+}
+```
+
+Email Input:
 ```json
 {
   "controlType": "input",
   "inputType": "email",
-  "label": "Email Address",
   "name": "email",
-  "placeholder": "user@example.com",
-  "required": true
+  "label": "Email Address",
+  "placeholder": "user@example.com"
+}
+```
+
+Radio Button Group:
+```json
+{
+  "controlType": "input",
+  "inputType": "radio",
+  "name": "gender",
+  "label": "Gender",
+  "options": [
+    { "label": "Male", "value": "male" },
+    { "label": "Female", "value": "female" }
+  ]
+}
+```
+
+Checkbox:
+```json
+{
+  "controlType": "input",
+  "inputType": "checkbox",
+  "name": "agreeTerms",
+  "label": "I agree to Terms"
 }
 ```
 
 ---
 
-#### 2. **Select Dropdown**
-Single or multi-select dropdown lists.
+#### 2. **Select** (`controlType: "select"`)
+Single or multi-select dropdown lists with options.
 
-**Control Type:** `"select"`
+**Key Properties:**
+- `options` (required) - Array of `{label, value}` objects
+- `multiple` - Allow multiple selections
+- Other common properties: `name`, `label`, `required`, `disabled`
 
-| Property | Type | Description | Optional? |
-|----------|------|-------------|-----------|
-| `controlType` | string | Must be `"select"` | No |
-| `name` | string | Field identifier | Yes |
-| `label` | string | Display label | Yes |
-| `options` | array | Array of {label, value} objects | No |
-| `required` | boolean | Makes selection required | Yes |
-| `multiple` | boolean | Allow multiple selections | Yes |
-| `disabled` | boolean | Disables dropdown | Yes |
-
-**Example:**
+**Example - Single Select:**
 ```json
 {
   "controlType": "select",
@@ -231,90 +253,37 @@ Single or multi-select dropdown lists.
 }
 ```
 
----
-
-#### 3. **Radio Button Group**
-Mutually exclusive options.
-
-**Control Type:** `"radio"`
-
-| Property | Type | Description | Optional? |
-|----------|------|-------------|-----------|
-| `controlType` | string | Must be `"radio"` | No |
-| `name` | string | Field identifier (all options share same name) | Yes |
-| `label` | string | Group label | Yes |
-| `options` | array | Array of {label, value} objects | No |
-| `required` | boolean | Makes selection required | Yes |
-| `disabled` | boolean | Disables all radio buttons | Yes |
-
-**Example:**
+**Example - Multi Select:**
 ```json
 {
-  "controlType": "radio",
-  "name": "gender",
-  "label": "Gender",
-  "required": true,
+  "controlType": "select",
+  "name": "skills",
+  "label": "Select Your Skills",
+  "multiple": true,
   "options": [
-    { "label": "Male", "value": "male" },
-    { "label": "Female", "value": "female" },
-    { "label": "Other", "value": "other" }
+    { "label": "React", "value": "react" },
+    { "label": "Node.js", "value": "node" },
+    { "label": "Python", "value": "python" }
   ]
 }
 ```
 
 ---
 
-#### 4. **Checkbox**
-Single boolean toggle.
+#### 3. **Textarea** (`controlType: "textarea"`)
+Multi-line text input for longer content.
 
-**Control Type:** `"checkbox"`
-
-| Property | Type | Description | Optional? |
-|----------|------|-------------|-----------|
-| `controlType` | string | Must be `"checkbox"` | No |
-| `name` | string | Field identifier | Yes |
-| `label` | string | Checkbox label | Yes |
-| `required` | boolean | Must be checked to proceed | Yes |
-| `disabled` | boolean | Disables checkbox | Yes |
-| `defaultValue` | boolean | Pre-checked state | Yes |
-
-**Example:**
-```json
-{
-  "controlType": "checkbox",
-  "name": "terms",
-  "label": "I agree to the terms and conditions",
-  "required": true
-}
-```
-
----
-
-#### 5. **Textarea**
-Multi-line text input.
-
-**Control Type:** `"textarea"`
-
-| Property | Type | Description | Optional? |
-|----------|------|-------------|-----------|
-| `controlType` | string | Must be `"textarea"` | No |
-| `name` | string | Field identifier | Yes |
-| `label` | string | Display label | Yes |
-| `placeholder` | string | Placeholder text | Yes |
-| `rows` | number | Number of visible rows | Yes |
-| `required` | boolean | Makes field required | Yes |
-| `disabled` | boolean | Disables textarea | Yes |
-| `defaultValue` | string | Pre-filled content | Yes |
-| `minLength` | number | Minimum characters | Yes |
-| `maxLength` | number | Maximum characters | Yes |
+**Key Properties:**
+- `rows` - Number of visible text rows (default: 3)
+- Other common properties: `name`, `label`, `placeholder`, `required`, `disabled`
 
 **Example:**
 ```json
 {
   "controlType": "textarea",
-  "name": "feedback",
-  "label": "Your Feedback",
-  "placeholder": "Tell us what you think...",
+  "name": "message",
+  "label": "Your Message",
+  "placeholder": "Type your message here...",
   "rows": 5,
   "required": true
 }
@@ -322,101 +291,13 @@ Multi-line text input.
 
 ---
 
-#### 6. **File Upload**
-Single or multiple file upload.
+#### 4. **Button** (`controlType: "button"`)
+Interactive buttons for form submission and actions.
 
-**Control Type:** `"file"`
-
-| Property | Type | Description | Optional? |
-|----------|------|-------------|-----------|
-| `controlType` | string | Must be `"file"` | No |
-| `name` | string | Field identifier | Yes |
-| `label` | string | Display label | Yes |
-| `accept` | string | Accepted file types (e.g., ".pdf,.doc") | Yes |
-| `multiple` | boolean | Allow multiple files | Yes |
-| `required` | boolean | File upload required | Yes |
-| `disabled` | boolean | Disables upload | Yes |
-
-**Example:**
-```json
-{
-  "controlType": "file",
-  "name": "resume",
-  "label": "Upload Resume",
-  "accept": ".pdf,.doc,.docx",
-  "multiple": false,
-  "required": true
-}
-```
-
----
-
-#### 7. **Range Slider**
-Numeric value selector with slider.
-
-**Control Type:** `"range"`
-
-| Property | Type | Description | Optional? |
-|----------|------|-------------|-----------|
-| `controlType` | string | Must be `"range"` | No |
-| `name` | string | Field identifier | Yes |
-| `label` | string | Display label | Yes |
-| `min` | number | Minimum value | Yes (default: 0) |
-| `max` | number | Maximum value | Yes (default: 100) |
-| `step` | number | Step increment | Yes (default: 1) |
-| `defaultValue` | number | Pre-set value | Yes |
-
-**Example:**
-```json
-{
-  "controlType": "range",
-  "name": "experience",
-  "label": "Years of Experience",
-  "min": 0,
-  "max": 50,
-  "step": 1
-}
-```
-
----
-
-#### 8. **Color Picker**
-Color selection input.
-
-**Control Type:** `"color"`
-
-| Property | Type | Description | Optional? |
-|----------|------|-------------|-----------|
-| `controlType` | string | Must be `"color"` | No |
-| `name` | string | Field identifier | Yes |
-| `label` | string | Display label | Yes |
-| `defaultValue` | string | Default hex color (e.g., "#FF0000") | Yes |
-
-**Example:**
-```json
-{
-  "controlType": "color",
-  "name": "favorite_color",
-  "label": "Favorite Color",
-  "defaultValue": "#FF0000"
-}
-```
-
----
-
-#### 9. **Button**
-Action button (currently visual placeholder).
-
-**Control Type:** `"button"`
-
-| Property | Type | Description | Optional? |
-|----------|------|-------------|-----------|
-| `controlType` | string | Must be `"button"` | No |
-| `name` | string | Button identifier | Yes |
-| `label` | string | Button text | Yes |
-| `buttonType` | string | "submit", "reset", or "button" | Yes (default: "button") |
-| `variant` | string | Button style ("primary", "secondary") | Yes |
-| `disabled` | boolean | Disables button | Yes |
+**Key Properties:**
+- `buttonType` - "submit", "reset", or "button"
+- `className` - Tailwind CSS classes for styling
+- Other common properties: `name`, `label`, `disabled`
 
 **Example:**
 ```json
@@ -425,7 +306,7 @@ Action button (currently visual placeholder).
   "name": "submitBtn",
   "label": "Submit Form",
   "buttonType": "submit",
-  "variant": "primary"
+  "className": "bg-blue-600 text-white px-4 py-2 rounded"
 }
 ```
 

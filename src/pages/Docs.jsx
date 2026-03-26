@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { advancedExample, buttonExample, checkBox, commonPropertiesExample, fullExample, inputTypes, radioButton, rootJson, selectType, textareaExample } from "../constants/DocsIndex";
 
 const CodeBlock = ({ code }) => {
@@ -9,7 +9,9 @@ const CodeBlock = ({ code }) => {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-
+  useEffect(() => {
+    document.title = "Quick Start"
+  }, [])
   return (
     <div className="relative group">
       <button
@@ -48,11 +50,38 @@ export default function Docs() {
             <p className="text-blue-800">
               Every form starts with a simple JSON object containing a <code className="bg-blue-100 px-2 py-1 rounded">fields</code> array.
               Each field object describes a form control with properties like <code className="bg-blue-100 px-2 py-1 rounded">controlType</code>,
-              <code className="bg-blue-100 px-2 py-1 rounded">inputType</code>, <code className="bg-blue-100 px-2 py-1 rounded">name</code>, and <code className="bg-blue-100 px-2 py-1 rounded">label</code>.
+              <code className="bg-blue-100 px-2 py-1 rounded">name</code>, and <code className="bg-blue-100 px-2 py-1 rounded">label</code>.
+              For inputs, specify the type using <code className="bg-blue-100 px-2 py-1 rounded">inputType</code>.
             </p>
           </div>
           <h3 className="text-xl font-semibold mb-4 text-slate-900">Root Structure</h3>
           <CodeBlock code={rootJson} />
+        </section>
+
+        {/* CONTROL TYPES OVERVIEW */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Control Types Overview</h2>
+          <p className="text-slate-600 mb-8">
+            JSON UI Builder supports 4 main control types, each with specific use cases:
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
+              <h4 className="font-semibold text-indigo-900 mb-2"> input</h4>
+              <p className="text-sm text-indigo-800">Versatile component for 13+ input types (text, email, number, date, radio, checkbox, etc.)</p>
+            </div>
+            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+              <h4 className="font-semibold text-green-900 mb-2"> select</h4>
+              <p className="text-sm text-green-800">Dropdown menus with single or multiple selection options</p>
+            </div>
+            <div className="bg-purple-50 border-l-4 border-purple-500 p-4 rounded-r-lg">
+              <h4 className="font-semibold text-purple-900 mb-2"> textarea</h4>
+              <p className="text-sm text-purple-800">Multi-line text input for longer content and messages</p>
+            </div>
+            <div className="bg-orange-50 border-l-4 border-orange-500 p-4 rounded-r-lg">
+              <h4 className="font-semibold text-orange-900 mb-2"> button</h4>
+              <p className="text-sm text-orange-800">Action buttons for form submission and user interactions</p>
+            </div>
+          </div>
         </section>
 
         {/* COMMON PROPERTIES */}
@@ -84,72 +113,86 @@ export default function Docs() {
 
         {/* INPUT COMPONENTS */}
         <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-6 text-slate-900">Input Types</h2>
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Input Type: 13+ Variants</h2>
+          <p className="text-slate-600 mb-4">
+            The <code className="bg-slate-200 px-2 py-1 rounded">input</code> control type is versatile and supports 13+ different input types.
+            Specify which one you need using the <code className="bg-slate-200 px-2 py-1 rounded">inputType</code> property:
+          </p>
           <p className="text-slate-600 mb-8">
-            Use <code className="bg-slate-200 px-2 py-1 rounded">controlType: "input"</code> and specify the <code className="bg-slate-200 px-2 py-1 rounded">inputType</code>:
+            <code className="bg-slate-200 px-2 py-1 rounded">"controlType": "input"</code> + <code className="bg-slate-200 px-2 py-1 rounded">"inputType": "text|email|number|date|..."</code>
           </p>
 
           {inputTypes.map((item, index) => (
             <div key={index} className="mb-10">
-              <h3 className="text-xl font-semibold mb-3 text-slate-900">{item.title}</h3>
+              <h3 className="text-lg font-semibold mb-3 text-slate-900">{item.title}</h3>
               <CodeBlock code={item.code} />
             </div>
           ))}
+        </section>
+
+        {/* SPECIAL INPUT TYPES */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Special Input Types: Radio & Checkbox</h2>
+          <p className="text-slate-600 mb-8">
+            While technically input types, radio buttons and checkboxes work slightly differently with option arrays:
+          </p>
+
+          {/* RADIO */}
+          <div className="mb-14">
+            <h3 className="text-2xl font-semibold mb-4 text-slate-900">Radio Buttons (<code className="bg-slate-200 px-2 py-1 rounded">inputType: "radio"</code>)</h3>
+            <p className="text-slate-600 mb-6">
+              Allow users to select one option from a list. Use with an <code className="bg-slate-200 px-2 py-1 rounded">options</code> array.
+            </p>
+            <CodeBlock code={radioButton} />
+          </div>
+
+          {/* CHECKBOX */}
+          <div className="mb-14">
+            <h3 className="text-2xl font-semibold mb-4 text-slate-900">Checkbox (<code className="bg-slate-200 px-2 py-1 rounded">inputType: "checkbox"</code>)</h3>
+            <p className="text-slate-600 mb-6">
+              Create a single checkbox for boolean input. The label appears inline with the checkbox.
+            </p>
+            <CodeBlock code={checkBox} />
+          </div>
         </section>
 
         {/* SELECT */}
         <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-6 text-slate-900">Select Dropdown</h2>
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Select Dropdown Control Type</h2>
           <p className="text-slate-600 mb-8">
-            Create dropdown menus with single or multiple selection options using <code className="bg-slate-200 px-2 py-1 rounded">controlType: "select"</code>.
+            Create dropdown menus with single or multiple selection using <code className="bg-slate-200 px-2 py-1 rounded">controlType: "select"</code>.
+            Provide an <code className="bg-slate-200 px-2 py-1 rounded">options</code> array with label/value pairs.
           </p>
 
           {selectType.map((item, index) => (
             <div key={index} className="mb-10">
-              <h3 className="text-xl font-semibold mb-3 text-slate-900">{item.title}</h3>
+              <h3 className="text-lg font-semibold mb-3 text-slate-900">{item.title}</h3>
               <CodeBlock code={item.code} />
             </div>
           ))}
         </section>
 
-        {/* RADIO */}
-        <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-6 text-slate-900">Radio Button</h2>
-          <p className="text-slate-600 mb-6">
-            Allow users to select one option from a list with <code className="bg-slate-200 px-2 py-1 rounded">controlType: "input"</code> and <code className="bg-slate-200 px-2 py-1 rounded">inputType: "radio"</code>.
-          </p>
-          <CodeBlock code={radioButton} />
-        </section>
-
-        {/* CHECKBOX */}
-        <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-6 text-slate-900">Checkbox</h2>
-          <p className="text-slate-600 mb-6">
-            Create a single checkbox with <code className="bg-slate-200 px-2 py-1 rounded">controlType: "input"</code> and <code className="bg-slate-200 px-2 py-1 rounded">inputType: "checkbox"</code>.
-          </p>
-          <CodeBlock code={checkBox} />
-        </section>
-
         {/* TEXTAREA */}
         <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-6 text-slate-900">Textarea</h2>
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Textarea Control Type</h2>
           <p className="text-slate-600 mb-6">
             Multi-line text input for longer content using <code className="bg-slate-200 px-2 py-1 rounded">controlType: "textarea"</code>.
+            Specify the number of visible rows with the <code className="bg-slate-200 px-2 py-1 rounded">rows</code> property.
           </p>
           <CodeBlock code={textareaExample} />
         </section>
 
         {/* BUTTON */}
         <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-6 text-slate-900">Button</h2>
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Button Control Type</h2>
           <p className="text-slate-600 mb-6">
             Add interactive buttons using <code className="bg-slate-200 px-2 py-1 rounded">controlType: "button"</code>.
-            Use <code className="bg-slate-200 px-2 py-1 rounded">buttonType: "submit"</code> for form submission.
+            Use <code className="bg-slate-200 px-2 py-1 rounded">buttonType: "submit"</code> for form submission buttons.
           </p>
           <CodeBlock code={buttonExample} />
           <div className="mt-6 bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
             <p className="text-amber-900">
-              <strong>💡 Tip:</strong> The <code className="bg-amber-100 px-2 py-1 rounded">className</code> property allows custom Tailwind CSS classes for styling buttons.
+              <strong> Styling Buttons:</strong> Use the <code className="bg-amber-100 px-2 py-1 rounded">className</code> property to apply Tailwind CSS classes for custom button styling.
             </p>
           </div>
         </section>
@@ -177,23 +220,23 @@ export default function Docs() {
           <h2 className="text-3xl font-bold mb-6 text-slate-900">Best Practices</h2>
           <div className="space-y-4">
             <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
-              <h3 className="font-semibold text-green-900 mb-2">✅ Use Consistent Naming</h3>
+              <h3 className="font-semibold text-green-900 mb-2"> Use Consistent Naming</h3>
               <p className="text-green-800 text-sm">Use camelCase for field names (e.g., <code className="bg-green-100 px-2 py-1 rounded">firstName</code>, <code className="bg-green-100 px-2 py-1 rounded">emailAddress</code>) for consistency.</p>
             </div>
             <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
-              <h3 className="font-semibold text-green-900 mb-2">✅ Always Validate JSON</h3>
+              <h3 className="font-semibold text-green-900 mb-2"> Always Validate JSON</h3>
               <p className="text-green-800 text-sm">Before using your JSON, ensure it's valid. The app provides real-time error feedback in the console.</p>
             </div>
             <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
-              <h3 className="font-semibold text-green-900 mb-2">✅ Use Meaningful Labels</h3>
+              <h3 className="font-semibold text-green-900 mb-2"> Use Meaningful Labels</h3>
               <p className="text-green-800 text-sm">Provide clear, user-friendly labels. Instead of "fname", use "First Name".</p>
             </div>
             <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
-              <h3 className="font-semibold text-green-900 mb-2">✅ Mark Required Fields</h3>
+              <h3 className="font-semibold text-green-900 mb-2"> Mark Required Fields</h3>
               <p className="text-green-800 text-sm">Always set <code className="bg-green-100 px-2 py-1 rounded">required: true</code> for mandatory fields to guide users.</p>
             </div>
             <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
-              <h3 className="font-semibold text-green-900 mb-2">✅ Provide Helpful Placeholders</h3>
+              <h3 className="font-semibold text-green-900 mb-2"> Provide Helpful Placeholders</h3>
               <p className="text-green-800 text-sm">Use placeholders to show users the expected format (e.g., "user@example.com" for email fields).</p>
             </div>
           </div>
@@ -204,19 +247,19 @@ export default function Docs() {
           <h2 className="text-3xl font-bold mb-6 text-slate-900">Tips & Tricks</h2>
           <div className="space-y-4">
             <div className="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
-              <h3 className="font-semibold text-indigo-900 mb-2">💡 Real-Time Preview</h3>
+              <h3 className="font-semibold text-indigo-900 mb-2"> Real-Time Preview</h3>
               <p className="text-indigo-800 text-sm">Edit your JSON on the left panel and see the form update instantly on the right. Great for experimentation!</p>
             </div>
             <div className="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
-              <h3 className="font-semibold text-indigo-900 mb-2">💡 Auto-Save</h3>
+              <h3 className="font-semibold text-indigo-900 mb-2"> Auto-Save</h3>
               <p className="text-indigo-800 text-sm">Your JSON is automatically saved to browser localStorage. Close and reopen the app—your work is still there!</p>
             </div>
             <div className="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
-              <h3 className="font-semibold text-indigo-900 mb-2">💡 Copy Code Blocks</h3>
+              <h3 className="font-semibold text-indigo-900 mb-2"> Copy Code Blocks</h3>
               <p className="text-indigo-800 text-sm">Click the "Copy" button in any code block to quickly copy examples and customize them for your needs.</p>
             </div>
             <div className="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
-              <h3 className="font-semibold text-indigo-900 mb-2">💡 Styling with Tailwind</h3>
+              <h3 className="font-semibold text-indigo-900 mb-2"> Styling with Tailwind</h3>
               <p className="text-indigo-800 text-sm">Use the <code className="bg-indigo-100 px-2 py-1 rounded">className</code> property on buttons to apply Tailwind CSS classes for custom styling.</p>
             </div>
           </div>

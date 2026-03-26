@@ -1,5 +1,4 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-// import JsonEditor from '../components/JsonEditor'
 import Preview from '../components/Preview'
 import Console from '../components/Console'
 import { DefaultInputs } from '../constants'
@@ -9,9 +8,9 @@ const JsonEditor = lazy(() => import("../components/JsonEditor"))
 const JsonUiBuilder = () => {
 
     const prettyJsonString = JSON.stringify(DefaultInputs, null, 2)
-
+    console.log(localStorage.getItem("json").trim() === "")
     const [jsonInput, setJsonInput] = useState(() => {
-        return localStorage.getItem("json") || prettyJsonString
+        return localStorage.getItem("json").trim() === "" ? prettyJsonString : localStorage.getItem("json")
     })
 
     const debounceRef = useRef(null)
@@ -43,6 +42,9 @@ const JsonUiBuilder = () => {
         console.log(parsed)
     }, [error, parsed])
 
+    useEffect(() => {
+        document.title = "JSON UI Builder"
+    }, [])
     return (
         <div className="min-h-screen w-full bg-linear-to-br from-slate-50 to-slate-100 text-slate-900">
             <main className="max-w-400 mx-auto px-4 sm:px-6 py-6 flex flex-col gap-6">
