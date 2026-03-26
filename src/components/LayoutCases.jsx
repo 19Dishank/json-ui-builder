@@ -1,8 +1,7 @@
-import Input from "./ui/Input"
 
 export const LayoutCases = ({ field }) => {
     const baseClass =
-        "bg-blue-500 text-white px-4 py-2 rounded transition transform duration-100 active:scale-95 disabled:bg-gray-400 disabled:active:scale-100 disabled:cursor-not-allowed";
+        "bg-blue-500 text-white px-4 py-2 rounded transition transform duration-100 active:scale-95 disabled:bg-gray-400 disabled:active:scale-100 disabled:cursor-not-allowed mr-3";
     const renderInput = () => {
         switch (field.inputType) {
 
@@ -14,6 +13,7 @@ export const LayoutCases = ({ field }) => {
                                 type="radio"
                                 name={field.name}
                                 value={opt.value}
+                                className="disabled:cursor-not-allowed"
                                 required={field.required}
                                 defaultChecked={field.defaultValue === opt.value}
                                 disabled={field.disabled}
@@ -28,6 +28,7 @@ export const LayoutCases = ({ field }) => {
                     <label className="flex gap-2 items-center">
                         <input
                             type="checkbox"
+                            className="disabled:cursor-not-allowed"
                             name={field.name}
                             defaultChecked={field.defaultValue}
                             disabled={field.disabled}
@@ -50,7 +51,7 @@ export const LayoutCases = ({ field }) => {
                         multiple={field.multiple}
                         disabled={field.disabled}
                         defaultValue={field.defaultValue}
-                        className="border p-2 rounded w-full"
+                        className="border p-2 rounded w-full disabled:cursor-not-allowed"
                     />
                 )
         }
@@ -74,7 +75,7 @@ export const LayoutCases = ({ field }) => {
                     <label>{field.label}</label>
                     <select
                         name={field.name}
-                        className="border p-2 rounded w-full"
+                        className="border p-2 rounded w-full disabled:cursor-not-allowed"
                         required={field.required}
                         multiple={field.multiple}
                         defaultValue={field.defaultValue}
@@ -99,7 +100,7 @@ export const LayoutCases = ({ field }) => {
                         placeholder={field.placeholder}
                         defaultValue={field.defaultValue}
                         disabled={field.disabled}
-                        className="border p-2 rounded w-full"
+                        className="border p-2 rounded w-full disabled:cursor-not-allowed"
                     />
                 </div>
             )

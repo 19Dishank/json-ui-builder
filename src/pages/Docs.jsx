@@ -190,10 +190,22 @@ export default function Docs() {
             Use <code className="bg-slate-200 px-2 py-1 rounded">buttonType: "submit"</code> for form submission buttons.
           </p>
           <CodeBlock code={buttonExample} />
-          <div className="mt-6 bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
-            <p className="text-amber-900">
-              <strong> Styling Buttons:</strong> Use the <code className="bg-amber-100 px-2 py-1 rounded">className</code> property to apply Tailwind CSS classes for custom button styling.
+          <div className="mt-6 flex gap-3 bg-blue-50 border border-blue-200 border-l-4 border-l-blue-500 p-5 rounded-xl shadow-sm">
+            <p className="text-blue-900 leading-relaxed">
+              <span className="font-semibold text-blue-950">
+                Styling Buttons:
+              </span>{" "}
+              Use the{" "}
+              <code className="bg-blue-200 text-blue-900 px-2 py-1 rounded-md text-sm font-medium">
+                className
+              </code>{" "}
+              property to apply{" "}
+              <code className="bg-indigo-200 text-indigo-900 px-2 py-1 rounded-md text-sm font-medium">
+                Tailwind CSS
+              </code>{" "}
+              classes for custom button styling.
             </p>
+
           </div>
         </section>
 

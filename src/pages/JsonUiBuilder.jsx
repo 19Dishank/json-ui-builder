@@ -2,6 +2,7 @@ import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } fro
 import Preview from '../components/Preview'
 import Console from '../components/Console'
 import { DefaultInputs } from '../constants'
+import Loader from '../components/ui/Loader'
 
 const JsonEditor = lazy(() => import("../components/JsonEditor"))
 
@@ -56,7 +57,7 @@ const JsonUiBuilder = () => {
                             </h2>
                         </div>
                         <div className="p-4">
-                            <Suspense fallback={'loading'}>
+                            <Suspense fallback={<Loader />}>
                                 <JsonEditor
                                     jsonInput={jsonInput}
                                     setJsonInput={setJsonInput}
