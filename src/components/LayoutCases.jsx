@@ -1,17 +1,47 @@
 import Input from "./ui/Input"
 
 export const LayoutCases = ({ field }) => {
-    switch (field.controlType) {
+    const baseClass =
+        "bg-blue-500 text-white px-4 py-2 rounded transition transform duration-100 active:scale-95 disabled:bg-gray-400 disabled:active:scale-100 disabled:cursor-not-allowed";
+    const renderInput = () => {
+        switch (field.inputType) {
 
-        case "input":
-            return (
-                <div key={field.name}>
-                    {field.label && <label>{field.label}</label>}
-                    <Input
+            case "radio":
+                return <div className="flex flex-row flex-nowrap gap-4 items-center">
+                    {field.options.map((opt) => (
+                        <label key={opt.value} className="flex gap-2 items-center whitespace-nowrap">
+                            <input
+                                type="radio"
+                                name={field.name}
+                                value={opt.value}
+                                required={field.required}
+                                defaultChecked={field.defaultValue === opt.value}
+                                disabled={field.disabled}
+                            />
+                            {opt.label}
+                        </label>
+                    ))}
+                </div>
+
+            case "checkbox":
+                return (
+                    <label className="flex gap-2 items-center">
+                        <input
+                            type="checkbox"
+                            name={field.name}
+                            defaultChecked={field.defaultValue}
+                            disabled={field.disabled}
+                        />
+                        {field.label}
+                    </label>
+                )
+
+            default:
+                return (
+                    <input
                         name={field.name}
                         type={field.inputType || "text"}
                         placeholder={field.placeholder}
-                        className="border p-2 rounded w-full"
                         required={field.required}
                         min={field.min}
                         max={field.max}
@@ -20,74 +50,35 @@ export const LayoutCases = ({ field }) => {
                         multiple={field.multiple}
                         disabled={field.disabled}
                         defaultValue={field.defaultValue}
-                    />
-                </div>
-            )
-
-        case "radio":
-            return (
-                <div key={field.name}>
-                    <label>{field.label}</label>
-                    <div className="flex gap-4">
-                        {field.options?.map((opt) => (
-                            <label key={opt.value} className="flex gap-2">
-                                <input
-                                    type="radio"
-                                    name={field.name}
-                                    value={opt.value}
-                                    required={field.required}
-                                />
-                                {opt.label}
-                            </label>
-                        ))}
-                    </div>
-                </div>
-            )
-
-        case "file":
-            return (
-                <div key={field.name}>
-                    <label>{field.label}</label>
-                    <input
-                        type="file"
-                        name={field.name}
-                        accept={field.accept}
-                        multiple={field.multiple}
                         className="border p-2 rounded w-full"
                     />
-                </div>
-            )
+                )
+        }
+    }
 
-        case "range":
-            return (
-                <div key={field.name}>
-                    <label>{field.label}</label>
-                    <input
-                        type="range"
-                        min={field.min || 0}
-                        max={field.max || 100}
-                        step={field.step || 1}
-                        className="w-full"
-                    />
-                </div>
-            )
+    switch (field.controlType) {
 
-        case "color":
+        case "input":
             return (
-                <div key={field.name}>
-                    <label>{field.label}</label>
-                    <input type="color" />
+                <div key={field.name} className="space-y-1">
+                    {field.inputType !== "checkbox" && field.label && (
+                        <label>{field.label}</label>
+                    )}
+                    {renderInput()}
                 </div>
             )
 
         case "select":
             return (
-                <div key={field.name}>
+                <div key={field.name} className="space-y-1">
                     <label>{field.label}</label>
                     <select
+                        name={field.name}
                         className="border p-2 rounded w-full"
                         required={field.required}
                         multiple={field.multiple}
+                        defaultValue={field.defaultValue}
+                        disabled={field.disabled}
                     >
                         {field.options?.map((opt) => (
                             <option key={opt.value} value={opt.value}>
@@ -100,22 +91,17 @@ export const LayoutCases = ({ field }) => {
 
         case "textarea":
             return (
-                <div key={field.name}>
+                <div key={field.name} className="space-y-1">
                     <label>{field.label}</label>
                     <textarea
+                        name={field.name}
                         rows={field.rows || 3}
                         placeholder={field.placeholder}
+                        defaultValue={field.defaultValue}
+                        disabled={field.disabled}
                         className="border p-2 rounded w-full"
                     />
                 </div>
-            )
-
-        case "checkbox":
-            return (
-                <label key={field.name} className="flex gap-2">
-                    <input type="checkbox" name={field.name} />
-                    {field.label}
-                </label>
             )
 
         case "button":
@@ -123,7 +109,8 @@ export const LayoutCases = ({ field }) => {
                 <button
                     key={field.name}
                     type={field.buttonType || "button"}
-                    className={`bg-blue-500 text-white px-4 py-2 rounded ${field.classname || ""}`}
+                    disabled={field.disabled}
+                    className={field.className ? field.className : baseClass}
                 >
                     {field.label}
                 </button>

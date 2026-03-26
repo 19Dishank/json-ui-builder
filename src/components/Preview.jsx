@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from 'react'
 import { LayoutCases } from './LayoutCases'
 
 const Preview = ({ parsed }) => {
-    const [fields, setField] = useState([])
-    useEffect(() => {
-        if (!parsed) return
-        setField(parsed.fields)
-    }, [parsed])
+    const fields = parsed?.fields || []
+
     return (
         <div className="space-y-4 mt-6">
             {fields?.map((field) => (

@@ -1,225 +1,272 @@
 import { useState } from "react";
+import { advancedExample, buttonExample, checkBox, commonPropertiesExample, fullExample, inputTypes, radioButton, rootJson, selectType, textareaExample } from "../constants/DocsIndex";
 
 const CodeBlock = ({ code }) => {
-    const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-    const handleCopy = async () => {
-        await navigator.clipboard.writeText(code);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-    };
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
-    return (
-        <div className="relative group">
-            <button
-                onClick={handleCopy}
-                className="absolute right-3 top-3 text-xs bg-slate-800 text-white px-3 py-1 rounded opacity-80 hover:opacity-100"
-            >
-                {copied ? "Copied" : "Copy"}
-            </button>
+  return (
+    <div className="relative group">
+      <button
+        onClick={handleCopy}
+        className="absolute right-3 top-3 text-xs bg-slate-800 text-white px-3 py-1 rounded opacity-80 hover:opacity-100"
+      >
+        {copied ? "Copied" : "Copy"}
+      </button>
 
-            <pre className="bg-slate-900 text-slate-100 p-6 rounded-xl overflow-auto text-sm">
-                <code>{code}</code>
-            </pre>
-        </div>
-    );
+      <pre className="bg-slate-900 text-slate-100 p-6 rounded-xl overflow-auto text-sm">
+        <code>{code}</code>
+      </pre>
+    </div>
+  );
 };
 
 export default function Docs() {
 
-    const rootJson = `{
-  "fields":[
-    { }
-  ]
-}`;
-
-    const inputTypes = [
-        {
-            title: "Text Input",
-            code: `{
-  "controlType":"input",
-  "inputType":"text",
-  "name":"fullName",
-  "label":"Full Name",
-  "placeholder":"John Doe",
-  "required":true
-}`
-        },
-        {
-            title: "Email Input",
-            code: `{
-  "controlType":"input",
-  "inputType":"email",
-  "name":"email",
-  "label":"Email Address",
-  "placeholder":"user@example.com",
-  "required":true
-}`
-        },
-        {
-            title: "Password Input",
-            code: `{
-  "controlType":"input",
-  "inputType":"password",
-  "name":"password",
-  "label":"Password",
-  "required":true,
-  "minLength":8
-}`
-        },
-        {
-            title: "Number Input",
-            code: `{
-  "controlType":"input",
-  "inputType":"number",
-  "name":"age",
-  "label":"Age",
-  "min":1,
-  "max":100
-}`
-        },
-        {
-            title: "Telephone Input",
-            code: `{
-  "controlType":"input",
-  "inputType":"tel",
-  "name":"phone",
-  "label":"Phone Number"
-}`
-        },
-        {
-            title: "URL Input",
-            code: `{
-  "controlType":"input",
-  "inputType":"url",
-  "name":"website",
-  "label":"Website"
-}`
-        },
-        {
-            title: "Date Picker",
-            code: `{
-  "controlType":"input",
-  "inputType":"date",
-  "name":"dob",
-  "label":"Date of Birth"
-}`
-        },
-        {
-            title: "Time Picker",
-            code: `{
-  "controlType":"input",
-  "inputType":"time",
-  "name":"meetingTime",
-  "label":"Meeting Time"
-}`
-        },
-        {
-            title: "Datetime Picker",
-            code: `{
-  "controlType":"input",
-  "inputType":"datetime-local",
-  "name":"schedule",
-  "label":"Schedule"
-}`
-        },
-        {
-            title: "Color Picker",
-            code: `{
-  "controlType":"input",
-  "inputType":"color",
-  "name":"favColor",
-  "label":"Favorite Color",
-  "defaultValue":"#ff0000"
-}`
-        },
-        {
-            title: "Search Input",
-            code: `{
-  "controlType":"input",
-  "inputType":"search",
-  "name":"search",
-  "label":"Search"
-}`
-        },
-        {
-            title: "File Upload",
-            code: `{
-  "controlType":"input",
-  "inputType":"file",
-  "name":"resume",
-  "label":"Upload Resume",
-  "accept":".pdf,.doc,.docx"
-}`
-        }
-    ];
-
-    const fullExample = `{
-  "fields":[
-    {
-      "controlType":"input",
-      "inputType":"text",
-      "name":"fullName",
-      "label":"Full Name",
-      "required":true
-    },
-    {
-      "controlType":"input",
-      "inputType":"email",
-      "name":"email",
-      "label":"Email",
-      "required":true
-    },
-    {
-      "controlType":"textarea",
-      "name":"message",
-      "label":"Message"
-    },
-    {
-      "controlType":"button",
-      "label":"Submit",
-      "buttonType":"submit"
-    }
-  ]
-}`;
-
-    return (
-        <div className="bg-slate-50 min-h-screen">
-            <div className="max-w-5xl mx-auto px-6 py-16">
-                <div className="mb-16">
-                    <h1 className="text-4xl font-bold mb-4">JSON UI Builder</h1>
-                    <p className="text-slate-600 text-lg">
-                        Transform JSON configuration into fully functional responsive UI forms instantly.
-                    </p>
-                </div>
-
-                <section className="mb-14">
-                    <h2 className="text-2xl font-semibold mb-4">Root JSON Structure</h2>
-                    <CodeBlock code={rootJson} />
-                </section>
-
-                {/* ALL INPUT TYPES */}
-                <section className="mb-14">
-                    <h2 className="text-2xl font-semibold mb-10">All Input Types</h2>
-
-                    {inputTypes.map((item, index) => (
-                        <div key={index} className="mb-12">
-                            <h3 className="text-xl font-semibold mb-4">{item.title}</h3>
-                            <CodeBlock code={item.code} />
-                        </div>
-                    ))}
-                </section>
-
-                <section className="mb-14">
-                    <h2 className="text-2xl font-semibold mb-4">Full Form Example</h2>
-                    <CodeBlock code={fullExample} />
-                </section>
-
-                <div className="text-center text-sm text-slate-400 mt-24">
-                    JSON UI Builder Documentation
-                </div>
-
-            </div>
+  return (
+    <div className="bg-slate-50 min-h-screen">
+      <div className="max-w-5xl mx-auto px-6 py-16">
+        {/* HEADER */}
+        <div className="mb-20">
+          <h1 className="text-5xl font-bold mb-4 text-slate-900">JSON UI Builder</h1>
+          <p className="text-xl text-slate-600 leading-relaxed">
+            Transform JSON configurations into fully functional, responsive UI forms instantly.
+            No HTML, no JSX needed—just pure JSON.
+          </p>
         </div>
-    );
+
+        {/* QUICK START */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Quick Start</h2>
+          <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg mb-6">
+            <h3 className="font-semibold text-blue-900 mb-2"> The Basics</h3>
+            <p className="text-blue-800">
+              Every form starts with a simple JSON object containing a <code className="bg-blue-100 px-2 py-1 rounded">fields</code> array.
+              Each field object describes a form control with properties like <code className="bg-blue-100 px-2 py-1 rounded">controlType</code>,
+              <code className="bg-blue-100 px-2 py-1 rounded">inputType</code>, <code className="bg-blue-100 px-2 py-1 rounded">name</code>, and <code className="bg-blue-100 px-2 py-1 rounded">label</code>.
+            </p>
+          </div>
+          <h3 className="text-xl font-semibold mb-4 text-slate-900">Root Structure</h3>
+          <CodeBlock code={rootJson} />
+        </section>
+
+        {/* COMMON PROPERTIES */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Common Properties</h2>
+          <p className="text-slate-600 mb-6">
+            Most form fields support these universal properties:
+          </p>
+          <CodeBlock code={commonPropertiesExample} />
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-slate-100 p-4 rounded-lg">
+              <h4 className="font-semibold text-slate-900 mb-2"> name</h4>
+              <p className="text-sm text-slate-700">Unique identifier for the field. Used for form submission and data handling.</p>
+            </div>
+            <div className="bg-slate-100 p-4 rounded-lg">
+              <h4 className="font-semibold text-slate-900 mb-2"> label</h4>
+              <p className="text-sm text-slate-700">Display text shown to users. Not needed for checkbox labels (label appears inline).</p>
+            </div>
+            <div className="bg-slate-100 p-4 rounded-lg">
+              <h4 className="font-semibold text-slate-900 mb-2"> required</h4>
+              <p className="text-sm text-slate-700">Set to <code className="bg-white px-1 rounded">true</code> to make the field mandatory.</p>
+            </div>
+            <div className="bg-slate-100 p-4 rounded-lg">
+              <h4 className="font-semibold text-slate-900 mb-2"> defaultValue</h4>
+              <p className="text-sm text-slate-700">Initial value displayed when the form loads.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* INPUT COMPONENTS */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Input Types</h2>
+          <p className="text-slate-600 mb-8">
+            Use <code className="bg-slate-200 px-2 py-1 rounded">controlType: "input"</code> and specify the <code className="bg-slate-200 px-2 py-1 rounded">inputType</code>:
+          </p>
+
+          {inputTypes.map((item, index) => (
+            <div key={index} className="mb-10">
+              <h3 className="text-xl font-semibold mb-3 text-slate-900">{item.title}</h3>
+              <CodeBlock code={item.code} />
+            </div>
+          ))}
+        </section>
+
+        {/* SELECT */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Select Dropdown</h2>
+          <p className="text-slate-600 mb-8">
+            Create dropdown menus with single or multiple selection options using <code className="bg-slate-200 px-2 py-1 rounded">controlType: "select"</code>.
+          </p>
+
+          {selectType.map((item, index) => (
+            <div key={index} className="mb-10">
+              <h3 className="text-xl font-semibold mb-3 text-slate-900">{item.title}</h3>
+              <CodeBlock code={item.code} />
+            </div>
+          ))}
+        </section>
+
+        {/* RADIO */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Radio Button</h2>
+          <p className="text-slate-600 mb-6">
+            Allow users to select one option from a list with <code className="bg-slate-200 px-2 py-1 rounded">controlType: "input"</code> and <code className="bg-slate-200 px-2 py-1 rounded">inputType: "radio"</code>.
+          </p>
+          <CodeBlock code={radioButton} />
+        </section>
+
+        {/* CHECKBOX */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Checkbox</h2>
+          <p className="text-slate-600 mb-6">
+            Create a single checkbox with <code className="bg-slate-200 px-2 py-1 rounded">controlType: "input"</code> and <code className="bg-slate-200 px-2 py-1 rounded">inputType: "checkbox"</code>.
+          </p>
+          <CodeBlock code={checkBox} />
+        </section>
+
+        {/* TEXTAREA */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Textarea</h2>
+          <p className="text-slate-600 mb-6">
+            Multi-line text input for longer content using <code className="bg-slate-200 px-2 py-1 rounded">controlType: "textarea"</code>.
+          </p>
+          <CodeBlock code={textareaExample} />
+        </section>
+
+        {/* BUTTON */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Button</h2>
+          <p className="text-slate-600 mb-6">
+            Add interactive buttons using <code className="bg-slate-200 px-2 py-1 rounded">controlType: "button"</code>.
+            Use <code className="bg-slate-200 px-2 py-1 rounded">buttonType: "submit"</code> for form submission.
+          </p>
+          <CodeBlock code={buttonExample} />
+          <div className="mt-6 bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
+            <p className="text-amber-900">
+              <strong>💡 Tip:</strong> The <code className="bg-amber-100 px-2 py-1 rounded">className</code> property allows custom Tailwind CSS classes for styling buttons.
+            </p>
+          </div>
+        </section>
+
+        {/* COMPLETE EXAMPLE */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Complete Form Example</h2>
+          <p className="text-slate-600 mb-6">
+            Here's a real-world example combining multiple field types:
+          </p>
+          <CodeBlock code={fullExample} />
+        </section>
+
+        {/* ADVANCED EXAMPLE */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Advanced Example</h2>
+          <p className="text-slate-600 mb-6">
+            Showcase more complex patterns with validation, default values, and custom styling:
+          </p>
+          <CodeBlock code={advancedExample} />
+        </section>
+
+        {/* BEST PRACTICES */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Best Practices</h2>
+          <div className="space-y-4">
+            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+              <h3 className="font-semibold text-green-900 mb-2">✅ Use Consistent Naming</h3>
+              <p className="text-green-800 text-sm">Use camelCase for field names (e.g., <code className="bg-green-100 px-2 py-1 rounded">firstName</code>, <code className="bg-green-100 px-2 py-1 rounded">emailAddress</code>) for consistency.</p>
+            </div>
+            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+              <h3 className="font-semibold text-green-900 mb-2">✅ Always Validate JSON</h3>
+              <p className="text-green-800 text-sm">Before using your JSON, ensure it's valid. The app provides real-time error feedback in the console.</p>
+            </div>
+            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+              <h3 className="font-semibold text-green-900 mb-2">✅ Use Meaningful Labels</h3>
+              <p className="text-green-800 text-sm">Provide clear, user-friendly labels. Instead of "fname", use "First Name".</p>
+            </div>
+            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+              <h3 className="font-semibold text-green-900 mb-2">✅ Mark Required Fields</h3>
+              <p className="text-green-800 text-sm">Always set <code className="bg-green-100 px-2 py-1 rounded">required: true</code> for mandatory fields to guide users.</p>
+            </div>
+            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+              <h3 className="font-semibold text-green-900 mb-2">✅ Provide Helpful Placeholders</h3>
+              <p className="text-green-800 text-sm">Use placeholders to show users the expected format (e.g., "user@example.com" for email fields).</p>
+            </div>
+          </div>
+        </section>
+
+        {/* TIPS & TRICKS */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Tips & Tricks</h2>
+          <div className="space-y-4">
+            <div className="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
+              <h3 className="font-semibold text-indigo-900 mb-2">💡 Real-Time Preview</h3>
+              <p className="text-indigo-800 text-sm">Edit your JSON on the left panel and see the form update instantly on the right. Great for experimentation!</p>
+            </div>
+            <div className="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
+              <h3 className="font-semibold text-indigo-900 mb-2">💡 Auto-Save</h3>
+              <p className="text-indigo-800 text-sm">Your JSON is automatically saved to browser localStorage. Close and reopen the app—your work is still there!</p>
+            </div>
+            <div className="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
+              <h3 className="font-semibold text-indigo-900 mb-2">💡 Copy Code Blocks</h3>
+              <p className="text-indigo-800 text-sm">Click the "Copy" button in any code block to quickly copy examples and customize them for your needs.</p>
+            </div>
+            <div className="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
+              <h3 className="font-semibold text-indigo-900 mb-2">💡 Styling with Tailwind</h3>
+              <p className="text-indigo-800 text-sm">Use the <code className="bg-indigo-100 px-2 py-1 rounded">className</code> property on buttons to apply Tailwind CSS classes for custom styling.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* SUPPORTED PROPERTIES BY CONTROL TYPE */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">Property Reference</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse bg-white rounded-lg overflow-hidden">
+              <thead>
+                <tr className="bg-slate-200">
+                  <th className="p-3 text-left text-sm font-semibold text-slate-900">Control Type</th>
+                  <th className="p-3 text-left text-sm font-semibold text-slate-900">Key Property</th>
+                  <th className="p-3 text-left text-sm font-semibold text-slate-900">Common Properties</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-t border-slate-200 hover:bg-slate-50">
+                  <td className="p-3 text-sm"><code className="bg-slate-100 px-2 py-1 rounded">input</code></td>
+                  <td className="p-3 text-sm"><code className="bg-slate-100 px-2 py-1 rounded">inputType</code></td>
+                  <td className="p-3 text-sm">name, label, required, placeholder, defaultValue, disabled</td>
+                </tr>
+                <tr className="border-t border-slate-200 hover:bg-slate-50">
+                  <td className="p-3 text-sm"><code className="bg-slate-100 px-2 py-1 rounded">select</code></td>
+                  <td className="p-3 text-sm"><code className="bg-slate-100 px-2 py-1 rounded">options</code></td>
+                  <td className="p-3 text-sm">name, label, required, multiple, defaultValue, disabled</td>
+                </tr>
+                <tr className="border-t border-slate-200 hover:bg-slate-50">
+                  <td className="p-3 text-sm"><code className="bg-slate-100 px-2 py-1 rounded">textarea</code></td>
+                  <td className="p-3 text-sm"><code className="bg-slate-100 px-2 py-1 rounded">rows</code></td>
+                  <td className="p-3 text-sm">name, label, placeholder, defaultValue, disabled</td>
+                </tr>
+                <tr className="border-t border-slate-200 hover:bg-slate-50">
+                  <td className="p-3 text-sm"><code className="bg-slate-100 px-2 py-1 rounded">button</code></td>
+                  <td className="p-3 text-sm"><code className="bg-slate-100 px-2 py-1 rounded">buttonType</code></td>
+                  <td className="p-3 text-sm">name, label, className, disabled</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        {/* FOOTER */}
+        <div className="text-center text-sm text-slate-500 pt-16 border-t border-slate-200 mt-20">
+          <p>JSON UI Builder v1.0 · Transform JSON into Forms</p>
+          <p className="mt-2">For more examples and support, visit the main editor</p>
+        </div>
+
+      </div>
+    </div>
+  );
 }

@@ -1,5 +1,4 @@
 import Navbar from "../components/ui/Navbar";
-import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import JsonUiBuilder from "../pages/JsonUiBuilder";

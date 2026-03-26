@@ -1,7 +1,5 @@
-import React from 'react';
-
 const Console = ({ error }) => {
-    console.log(error.stack)
+    console.log(error)
     return (
         <section className="h-full shrink-0 flex flex-col bg-slate-950 rounded-xl border border-slate-800 shadow-2xl overflow-hidden font-mono">
             <div className="flex items-center justify-between px-4 py-2 bg-slate-900/50 border-b border-slate-800">
