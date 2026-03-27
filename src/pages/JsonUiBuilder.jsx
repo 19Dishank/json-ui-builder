@@ -1,53 +1,73 @@
-import React, { useMemo, useState } from 'react'
-import JsonEditor from '../components/JsonEditor'
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Preview from '../components/Preview'
 import Console from '../components/Console'
 import { DefaultInputs } from '../constants'
+import Loader from '../components/ui/Loader'
+
+const JsonEditor = lazy(() => import("../components/JsonEditor"))
 
 const JsonUiBuilder = () => {
 
     const prettyJsonString = JSON.stringify(DefaultInputs, null, 2)
+    // console.log(localStorage.getItem("json").trim() === "")
+    const [jsonInput, setJsonInput] = useState(() => {
+        return localStorage.getItem("json").trim() === "" ? prettyJsonString : localStorage.getItem("json")
+    })
 
-    const [error, setError] = useState('')
-    const [jsonInput, setJsonInput] = useState(prettyJsonString)
+    const debounceRef = useRef(null)
 
-    const parsed = useMemo(() => {
+    const { error, parsed } = useMemo(() => {
         try {
             const data = JSON.parse(jsonInput)
-            setError('')
-            return data
+            return { error: '', parsed: data }
         } catch (err) {
-            setError(err)
-            return { fields: [] }
+            return { error: err, parsed: { fields: [] } }
         }
     }, [jsonInput])
 
-    const handlePreview = () => {
-        if (error) return
-        console.log(parsed.fields?.map(f => f.type))
-        console.log("Parsed JSON:", parsed)
-    }
+    useEffect(() => {
+        if (debounceRef.current) {
+            clearTimeout(debounceRef.current)
+        }
 
+        debounceRef.current = setTimeout(() => {
+            localStorage.setItem("json", jsonInput)
+            // console.log("Saved")
+        }, 600)
+
+        return () => clearTimeout(debounceRef.current)
+    }, [jsonInput])
+
+    const handlePreview = useCallback(() => {
+        if (error) return
+        // console.log(parsed)
+    }, [error, parsed])
+
+    useEffect(() => {
+        document.title = "JSON UI Builder"
+    }, [])
     return (
         <div className="min-h-screen w-full bg-linear-to-br from-slate-50 to-slate-100 text-slate-900">
             <main className="max-w-400 mx-auto px-4 sm:px-6 py-6 flex flex-col gap-6">
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                    <section className="flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition">
+                    <section className=" min-h-130 flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition">
                         <div className="px-5 py-5  bg-blue-200/25 rounded-t-2xl">
                             <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-600">
                                 Editor
                             </h2>
                         </div>
                         <div className="p-4">
-                            <JsonEditor
-                                jsonInput={jsonInput}
-                                setJsonInput={setJsonInput}
-                                error={error}
-                                handlePreview={handlePreview}
-                            />
+                            <Suspense fallback={<Loader />}>
+                                <JsonEditor
+                                    jsonInput={jsonInput}
+                                    setJsonInput={setJsonInput}
+                                    error={error}
+                                    handlePreview={handlePreview}
+                                />
+                            </Suspense>
                         </div>
                     </section>
-                    <section className="flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition">
+                    <section className="min-h-130 flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition">
                         <div className="px-5 py-3  bg-blue-200/25 rounded-t-2xl flex items-center justify-between">
                             <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-600">
                                 Preview
@@ -67,7 +87,7 @@ const JsonUiBuilder = () => {
                                 </div>
                             )}
                         </div>
-                        <div className="flex-1 min-h-105 max-h-[60vh] overflow-auto p-6  bg-size-[18px_18px]">
+                        <div className="flex-1 min-h-110 max-h-[60vh] overflow-auto p-6  bg-size-[18px_18px]">
                             <Preview parsed={parsed} />
                         </div>
                     </section>
