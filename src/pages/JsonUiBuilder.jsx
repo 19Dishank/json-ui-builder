@@ -10,9 +10,17 @@ const JsonUiBuilder = () => {
 
     const prettyJsonString = JSON.stringify(DefaultInputs, null, 2)
     // console.log(localStorage.getItem("json").trim() === "")
-    const [jsonInput, setJsonInput] = useState(() => {
-        return localStorage.getItem("json").trim() === "" ? prettyJsonString : localStorage.getItem("json")
-    })
+    const [jsonInput, setJsonInput] = useState(prettyJsonString);
+
+    useEffect(() => {
+        const stored = localStorage.getItem("json");
+        if (!stored || stored.trim() === "") {
+            localStorage.setItem("json", prettyJsonString);
+            setJsonInput(prettyJsonString);
+        } else {
+            setJsonInput(stored);
+        }
+    }, []);
 
     const debounceRef = useRef(null)
 
