@@ -9,7 +9,7 @@ const JsonEditor = lazy(() => import("../components/JsonEditor"))
 const JsonUiBuilder = () => {
 
     const prettyJsonString = JSON.stringify(DefaultInputs, null, 2)
-    console.log(localStorage.getItem("json").trim() === "")
+    // console.log(localStorage.getItem("json").trim() === "")
     const [jsonInput, setJsonInput] = useState(() => {
         return localStorage.getItem("json").trim() === "" ? prettyJsonString : localStorage.getItem("json")
     })
@@ -32,7 +32,7 @@ const JsonUiBuilder = () => {
 
         debounceRef.current = setTimeout(() => {
             localStorage.setItem("json", jsonInput)
-            console.log("Parent Saved")
+            // console.log("Saved")
         }, 600)
 
         return () => clearTimeout(debounceRef.current)
@@ -40,7 +40,7 @@ const JsonUiBuilder = () => {
 
     const handlePreview = useCallback(() => {
         if (error) return
-        console.log(parsed)
+        // console.log(parsed)
     }, [error, parsed])
 
     useEffect(() => {
