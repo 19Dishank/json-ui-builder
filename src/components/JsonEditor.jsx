@@ -148,7 +148,7 @@ const JsonEditor = memo(({ jsonInput, setJsonInput, duplicateError, setDuplicate
                     className="w-full overflow-y-scroll whitespace-pre-wrap outline-none p-4 font-mono text-sm"
                 />
 
-            </div>
+            </div >
         </>
     )
 })
