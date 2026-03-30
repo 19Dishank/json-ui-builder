@@ -18,7 +18,7 @@ const DraggableButton = ({ label, config }) => {
             {...listeners}
             {...attributes}
             style={style}
-            className="px-3.5 py-1.5 bg-blue-500 text-white rounded-md cursor-grab active:cursor-grabbing w-fit hover:bg-blue-600 transition"
+            className="px-3.5 py-1.5 touch-none bg-blue-500 text-white rounded-md cursor-grab active:cursor-grabbing w-fit hover:bg-blue-600 transition"
         >
             {label}
         </div>
