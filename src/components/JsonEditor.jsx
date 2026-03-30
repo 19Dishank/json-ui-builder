@@ -1,14 +1,56 @@
 import { memo, useEffect, useRef, useState } from 'react'
 
-const JsonEditor = memo(({ jsonInput, setJsonInput }) => {
+const JsonEditor = memo(({ jsonInput, setJsonInput, duplicateError, setDuplicateError }) => {
     const editorRef = useRef(null);
     const lineRef = useRef(null);
+
     const [lineCount, setLineCount] = useState(1);
+
+
+    const checkDuplicateNames = (dataArray) => {
+        if (!Array.isArray(dataArray)) return null;
+
+        const seen = new Set();
+        const duplicates = new Set();
+
+        dataArray.forEach(item => {
+            const name = item?.name?.trim();
+            if (!name) return;
+
+            if (seen.has(name)) {
+                duplicates.add(name);
+            } else {
+                seen.add(name);
+            }
+        });
+
+        if (duplicates.size > 0) {
+            return `Duplicate names: ${[...duplicates].join(", ")}`;
+        }
+
+        return null;
+    };
+
+
+    useEffect(() => {
+        try {
+            const parsed = JSON.parse(jsonInput);
+
+            const duplicateError = checkDuplicateNames(parsed?.fields);
+
+            if (duplicateError) {
+                setDuplicateError(duplicateError);
+            } else {
+                setDuplicateError("");
+            }
+        } catch (err) {
+            return
+        }
+    }, [jsonInput]);
 
     const handleInput = (e) => {
         const text = e.currentTarget.innerText;
         setJsonInput(text);
-
         updateLineNumbers(text);
     };
 
@@ -73,7 +115,7 @@ const JsonEditor = memo(({ jsonInput, setJsonInput }) => {
             lineRef.current.scrollTop = editorRef.current.scrollTop;
         }
     };
-
+    // console.log(duplicateError)
     return (
         <>
             {/* <textarea
@@ -82,7 +124,6 @@ const JsonEditor = memo(({ jsonInput, setJsonInput }) => {
                 onChange={(e) => setJsonInput(e.target.value)}
                 className="w-full min-h-105 p-4 font-mono text-sm bg-slate-50 border border-slate-200 rounded-xl shadow-inner focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
             /> */}
-
             <div className="flex w-full h-105 border border-slate-200 rounded-xl shadow-inner bg-slate-50 overflow-hidden">
 
                 {/* Line Numbers */}

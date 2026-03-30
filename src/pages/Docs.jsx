@@ -41,7 +41,7 @@ export default function Docs() {
     });
     setSectionIds(ids);
   }, []);
-  console.log(sectionIds);
+  // console.log(sectionIds);
   const handleScroll = (id) => {
     setIsActiveTab(id);
     const section = document.getElementById(id);

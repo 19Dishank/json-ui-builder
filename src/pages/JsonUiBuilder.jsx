@@ -7,7 +7,7 @@ import Loader from '../components/ui/Loader'
 const JsonEditor = lazy(() => import("../components/JsonEditor"))
 
 const JsonUiBuilder = () => {
-
+    const [duplicateError, setDuplicateError] = useState("");
     const prettyJsonString = JSON.stringify(DefaultInputs, null, 2)
     // console.log(localStorage.getItem("json").trim() === "")
     const [jsonInput, setJsonInput] = useState(prettyJsonString);
@@ -32,7 +32,7 @@ const JsonUiBuilder = () => {
             return { error: err, parsed: { fields: [] } }
         }
     }, [jsonInput])
-
+    const hasError = error || duplicateError;
     useEffect(() => {
         if (debounceRef.current) {
             clearTimeout(debounceRef.current)
@@ -69,7 +69,8 @@ const JsonUiBuilder = () => {
                                 <JsonEditor
                                     jsonInput={jsonInput}
                                     setJsonInput={setJsonInput}
-                                    error={error}
+                                    duplicateError={duplicateError}
+                                    setDuplicateError={setDuplicateError}
                                     handlePreview={handlePreview}
                                 />
                             </Suspense>
@@ -80,7 +81,7 @@ const JsonUiBuilder = () => {
                             <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-600">
                                 Preview
                             </h2>
-                            {error ? (
+                            {hasError ? (
                                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-50 border border-red-200 text-red-600 text-xs font-semibold shadow-sm">
                                     <span className="relative flex h-2 w-2">
                                         <span className="absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-70 animate-ping"></span>
@@ -101,7 +102,7 @@ const JsonUiBuilder = () => {
                     </section>
                 </div>
                 <div className="h-55">
-                    <Console error={error} />
+                    <Console error={error} duplicateError={duplicateError} />
                 </div>
             </main>
         </div>
